@@ -1,8 +1,8 @@
 package com.algaworks.algafoodapi;
-
-
+import model.Cliente;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.AtivacaoClienteService;
 
 @org.springframework.stereotype.Controller
 public class Controller {

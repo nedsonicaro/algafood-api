@@ -1,6 +1,4 @@
-package com.algaworks.algafoodapi;
-
-
+package model;
 
 public class Cliente {
     private String nome;
@@ -13,7 +11,6 @@ public class Cliente {
         this.email = email;
         this.telefone = telefone;
     }
-
     public String getNome() {
         return nome;
     }
