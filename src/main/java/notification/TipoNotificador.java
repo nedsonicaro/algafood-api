@@ -7,5 +7,5 @@ import java.lang.annotation.RetentionPolicy;
 @Qualifier
 public @interface TipoNotificador {
 
-        NivelUrgencia value() default NivelUrgencia.NORMAL;
+        NivelUrgencia value();
 }
