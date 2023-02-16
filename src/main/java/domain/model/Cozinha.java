@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Cozinha {
     @Id
     private Long id;
-    @Column(name = "nome")
+    @Column(name = "nome", length = 30)
     private String nome;
 
     public Long getId() {

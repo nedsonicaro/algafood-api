@@ -1,9 +1,13 @@
 package domain.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "restaurante")
 public class Restaurante {
     @Id
     private Long id;
