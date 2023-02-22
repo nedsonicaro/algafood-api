@@ -3,14 +3,13 @@ package domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "cozinhas")
-public class Cozinha {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "formas_pagamento")
+public class FormaPagamento {
 
     @EqualsAndHashCode.Include
     @Id
@@ -19,6 +18,12 @@ public class Cozinha {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
+    private String descricao;
+
+
 
 }
+
+
+
+

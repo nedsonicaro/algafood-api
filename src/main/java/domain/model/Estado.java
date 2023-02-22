@@ -3,22 +3,20 @@ package domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 import javax.persistence.*;
 
+@Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-@Table(name = "cozinhas")
-public class Cozinha {
+@Table(name = "estados")
+public class Estado {
 
-    @EqualsAndHashCode.Include
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
     private String nome;
-
 }

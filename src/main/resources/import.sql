@@ -1,1 +1,1 @@
-select * from cozinhas;
+insert into restaurantes (id, nome, taxa_frete, cozinha_id) values (2, 'Churrascaria do William', 3.5, 1);
