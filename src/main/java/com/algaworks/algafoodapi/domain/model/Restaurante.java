@@ -1,25 +1,28 @@
-package domain.model;
+package com.algaworks.algafoodapi.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "cidades")
-public class Cidade {
-    @EqualsAndHashCode.Include
+public class Restaurante {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private Long id;
-
     @Column(nullable = false)
     private String nome;
 
+    @Column(name = "taxa_frete", nullable = false)
+    private BigDecimal taxaFrete;
+
     @ManyToOne
-    @JoinColumn(name = "estado_id")
-    private Estado estado;
+    @JoinColumn(name = "cozinha_id", nullable = false)
+    private Cozinha cozinha;
 }

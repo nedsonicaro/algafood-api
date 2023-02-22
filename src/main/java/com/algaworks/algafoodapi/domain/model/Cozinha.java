@@ -1,4 +1,4 @@
-package domain.model;
+package com.algaworks.algafoodapi.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "cozinhas")
 public class Cozinha {
 
     @EqualsAndHashCode.Include

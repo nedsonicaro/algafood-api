@@ -1,8 +1,8 @@
-package infrastructure.repository;
+package com.algaworks.algafoodapi.repository;
 
 
-import domain.model.Restaurante;
-import domain.repository.RestauranteRepository;
+import com.algaworks.algafoodapi.domain.model.Restaurante;
+import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

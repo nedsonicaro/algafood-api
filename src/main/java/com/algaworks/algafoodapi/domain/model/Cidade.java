@@ -1,22 +1,25 @@
-package domain.model;
+package com.algaworks.algafoodapi.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(name = "estados")
-public class Estado {
-
-    @Id
+@Entity
+@Table(name = "cidades")
+public class Cidade {
     @EqualsAndHashCode.Include
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(nullable = false)
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "estado_id")
+    private Estado estado;
 }

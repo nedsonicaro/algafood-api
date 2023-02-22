@@ -1,15 +1,13 @@
-package jpa;
+package com.algaworks.algafoodapi.jpa;
 
 import com.algaworks.algafoodapi.AlgafoodApiApplication;
-import domain.model.Cozinha;
-import domain.repository.CozinhaRepository;
+import com.algaworks.algafoodapi.domain.model.Cozinha;
+import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
-
-public class ConsultaCozinhaMain {
+public class AlteracaoCozinhaMain {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
                 .web(WebApplicationType.NONE)
@@ -17,10 +15,11 @@ public class ConsultaCozinhaMain {
 
         CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 
-        List<Cozinha> todasCozinhas = cozinhaRepository.listar();
+        Cozinha cozinha = new Cozinha();
+        cozinha.setId(1L);
+        cozinha.setNome("Brasileira");
 
-        for (Cozinha cozinha : todasCozinhas) {
-            System.out.println(cozinha.getNome());
-        }
+        cozinhaRepository.salvar(cozinha);
+
     }
 }

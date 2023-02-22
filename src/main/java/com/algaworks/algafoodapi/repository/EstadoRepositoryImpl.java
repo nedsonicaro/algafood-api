@@ -1,7 +1,7 @@
-package infrastructure.repository;
+package com.algaworks.algafoodapi.repository;
 
-import domain.model.Estado;
-import domain.repository.EstadoRepository;
+import com.algaworks.algafoodapi.domain.model.Estado;
+import com.algaworks.algafoodapi.domain.repository.EstadoRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;

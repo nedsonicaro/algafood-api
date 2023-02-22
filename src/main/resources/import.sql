@@ -1,1 +1,10 @@
-insert into restaurantes (id, nome, taxa_frete, cozinha_id) values (2, 'Churrascaria do William', 3.5, 1);
+insert into cozinha (nome) values ('Brasileira');
+insert into cozinha (nome) values ('Japonesa');
+insert into cozinha (nome) values ('Indiana');
+insert into cozinha (nome) values ('Árabe');
+
+insert into estados (nome) values ('Santa Catarina');
+insert into estados (nome) values ('Ceará');
+insert into estados (nome) values ('São Paulo');
+insert into estados (nome) values ('Amazonas');
+insert into estados (nome) values ('Sergipe');

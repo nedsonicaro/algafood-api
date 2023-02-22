@@ -1,7 +1,6 @@
-package domain.repository;
+package com.algaworks.algafoodapi.domain.repository;
 
-import domain.model.Cozinha;
-import domain.model.Estado;
+import com.algaworks.algafoodapi.domain.model.Estado;
 
 import java.util.List;
 

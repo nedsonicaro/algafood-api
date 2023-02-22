@@ -1,6 +1,6 @@
-package domain.repository;
+package com.algaworks.algafoodapi.domain.repository;
 
-import domain.model.Permissao;
+import com.algaworks.algafoodapi.domain.model.Permissao;
 import java.util.List;
 
 public interface PermissaoRepository {

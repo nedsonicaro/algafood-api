@@ -1,7 +1,7 @@
-package infrastructure.repository;
+package com.algaworks.algafoodapi.repository;
 
-import domain.model.FormaPagamento;
-import domain.repository.FormaPagamentoRepository;
+import com.algaworks.algafoodapi.domain.model.FormaPagamento;
+import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;

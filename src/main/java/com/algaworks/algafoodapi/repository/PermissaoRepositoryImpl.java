@@ -1,7 +1,7 @@
-package infrastructure.repository;
+package com.algaworks.algafoodapi.repository;
 
-import domain.model.Permissao;
-import domain.repository.PermissaoRepository;
+import com.algaworks.algafoodapi.domain.model.Permissao;
+import com.algaworks.algafoodapi.domain.repository.PermissaoRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
