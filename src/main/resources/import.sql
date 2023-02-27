@@ -11,3 +11,5 @@ insert into estados (nome) values ('Sergipe');
 
 insert into restaurante (nome, taxa_frete, cozinha_id) values ('Zé do caranguejo', 10, 1);
 
+insert into cidades (nome, estado_id) values ('Florianópolis', 1);
+insert into cidades (nome, estado_id) values ('Fortaleza', 2);
