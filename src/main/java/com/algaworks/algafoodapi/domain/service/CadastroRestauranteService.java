@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CadastroRestauranteService {
@@ -24,50 +25,43 @@ public class CadastroRestauranteService {
     private CozinhaRepository cozinhaRepository;
 
     public List<Restaurante> listar() {
-        return restauranteRepository.listar();
+        return restauranteRepository.findAll();
     }
 
     public Restaurante buscar(Long restauranteId) {
-        Restaurante restauranteBusca = restauranteRepository.buscar(restauranteId);
-        if (restauranteBusca == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
-        }
-        return restauranteRepository.buscar(restauranteId);
+        restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de restaurante com código %d", restauranteId)));
+
+        return restauranteRepository.findById(restauranteId).get();
     }
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
 
-        if (cozinha == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
-        }
         restaurante.setCozinha(cozinha);
-        return restauranteRepository.salvar(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     public Restaurante atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) throws SQLIntegrityConstraintViolationException {
-        Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
-        Cozinha cozinhaAtual = cozinhaRepository.buscar(restaurante.getCozinha().getId());
+        Restaurante restauranteAtual = restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de restaurante com código %d", restauranteId)));
+        cozinhaRepository.findById(restaurante.getCozinha().getId())
+                .orElseThrow(() -> new SQLIntegrityConstraintViolationException());
 
-        if (restauranteAtual == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de restaurante com código %d", restauranteId));
-        }
-        if (cozinhaAtual == null) {
-            throw new SQLIntegrityConstraintViolationException();
-        }
         restauranteAtual.setNome(restaurante.getNome());
         restauranteAtual.setTaxaFrete(restaurante.getTaxaFrete());
         restauranteAtual.setCozinha(restaurante.getCozinha());
-        restauranteRepository.salvar(restauranteAtual);
+        restauranteRepository.save(restauranteAtual);
         return restauranteAtual;
     }
 
     public void excluir(Long restauranteId) {
         try {
-            restauranteRepository.remover(restauranteId);
+            restauranteRepository.deleteById(restauranteId);
         } catch (Exception e) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de restaurante com código %d", restauranteId));

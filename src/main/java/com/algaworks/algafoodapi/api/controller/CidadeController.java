@@ -38,7 +38,7 @@ public class CidadeController {
     @PostMapping
     public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
         try {
-            cidade = cadastroCidade.salvar(cidade);
+            cadastroCidade.salvar(cidade);
             return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -48,7 +48,7 @@ public class CidadeController {
     @PutMapping("/{cidadeId}")
     public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
         try {
-            cidade = cadastroCidade.atualizar(cidadeId, cidade);
+            cadastroCidade.atualizar(cidadeId, cidade);
             return ResponseEntity.ok(cidade);
         }catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();

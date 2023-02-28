@@ -33,7 +33,7 @@ public class RestauranteController {
 
     @GetMapping
     public List<Restaurante> listar() {
-        return restauranteRepository.listar();
+        return cadastroRestaurante.listar();
     }
 
     @GetMapping("/{restauranteId}")
@@ -49,7 +49,7 @@ public class RestauranteController {
     @PostMapping
     public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
         try {
-            restaurante = cadastroRestaurante.salvar(restaurante);
+            cadastroRestaurante.salvar(restaurante);
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -58,7 +58,7 @@ public class RestauranteController {
     @PutMapping("/{restauranteId}")
     public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
         try {
-            restaurante = cadastroRestaurante.atualizar(restauranteId, restaurante);
+            cadastroRestaurante.atualizar(restauranteId, restaurante);
             return ResponseEntity.ok(restaurante);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
@@ -79,11 +79,10 @@ public class RestauranteController {
 
     @PatchMapping("/{restauranteId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos) {
-        Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
+        Restaurante restauranteAtual = restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de restaurante com código %d", restauranteId)));
 
-        if (restauranteAtual == null) {
-            return ResponseEntity.notFound().build();
-        }
         merge(campos, restauranteAtual);
         return atualizar(restauranteId, restauranteAtual);
     }

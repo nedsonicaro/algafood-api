@@ -10,43 +10,39 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 public class CadastroEstadoService {
     @Autowired
     private EstadoRepository estadoRepository;
 
     public List<Estado> listar() {
-        return estadoRepository.listar();
+        return estadoRepository.findAll();
     }
 
     public Estado buscar(Long estadoId) {
-        Estado estadoBusca = estadoRepository.buscar(estadoId);
-        if (estadoBusca == null) {
-            throw new EntidadeNaoEncontradaException("Estado não encontrado");
-        }
-        return estadoRepository.buscar(estadoId);
+        estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de estado com código %d", estadoId)));
+        return estadoRepository.findById(estadoId).get();
     }
 
     public Estado salvar (Estado estado) {
-        return estadoRepository.salvar(estado);
+        return estadoRepository.save(estado);
     }
 
     public Estado atualizar(Long estadoId, Estado estado) {
-        Estado estadoAtual = estadoRepository.buscar(estadoId);
+        Estado estadoAtual = estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de estado com código %d", estadoId)));
 
-        if(estadoAtual == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de estado com código %d", estadoId));
-        }
         estadoAtual.setNome(estado.getNome());
-        estadoRepository.salvar(estadoAtual);
+        estadoRepository.save(estadoAtual);
         return estadoAtual;
     }
 
     public void excluir(Long estadoId) {
         try {
-            estadoRepository.remover(estadoId);
+            estadoRepository.deleteById(estadoId);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de estado com código %d", estadoId));

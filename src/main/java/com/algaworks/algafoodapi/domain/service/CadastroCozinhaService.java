@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CadastroCozinhaService {
@@ -18,35 +19,32 @@ public class CadastroCozinhaService {
     private CozinhaRepository cozinhaRepository;
 
     public List<Cozinha> listar() {
-        return cozinhaRepository.listar();
+        return cozinhaRepository.findAll();
     }
 
     public Cozinha buscar(Long cozinhaId) {
-        Cozinha cozinhaBusca = cozinhaRepository.buscar(cozinhaId);
-        if (cozinhaBusca == null) {
-            throw new EntidadeNaoEncontradaException("Cozinha não encontrada");
-        }
-        return cozinhaRepository.buscar(cozinhaId);
+        cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
+        return cozinhaRepository.findById(cozinhaId).get();
     }
     public Cozinha salvar(Cozinha cozinha) {
-        return cozinhaRepository.salvar(cozinha);
+        return cozinhaRepository.save(cozinha);
     }
 
     public Cozinha atualizar(@PathVariable Long id, Cozinha cozinha) {
-        Cozinha cozinhaAtual = cozinhaRepository.buscar(id);
+        Cozinha cozinhaAtual = cozinhaRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de cozinha com código %d", id)));
 
-        if (cozinhaAtual == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cozinha com código %d", id));
-        }
         cozinhaAtual.setNome(cozinha.getNome());
-        cozinhaRepository.salvar(cozinhaAtual);
+        cozinhaRepository.save(cozinhaAtual);
         return cozinhaAtual;
     }
 
     public void excluir(Long cozinhaId) {
         try {
-            cozinhaRepository.remover(cozinhaId);
+            cozinhaRepository.deleteById(cozinhaId);
         }catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
                     String.format("Cozinha de código %d não pode ser removida, pois está em uso", cozinhaId));

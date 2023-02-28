@@ -39,7 +39,7 @@ public class CozinhaController {
     @PostMapping
     public ResponseEntity<?> adicionar(@RequestBody Cozinha cozinha) {
         try {
-            cozinha = cadastroCozinha.salvar(cozinha);
+            cadastroCozinha.salvar(cozinha);
             return ResponseEntity.status(HttpStatus.CREATED).body(cozinha);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -49,7 +49,7 @@ public class CozinhaController {
     @PutMapping("/{cozinhaId}")
     public ResponseEntity<?> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
         try {
-            cozinha = cadastroCozinha.atualizar(cozinhaId, cozinha);
+            cadastroCozinha.atualizar(cozinhaId, cozinha);
             return ResponseEntity.ok(cozinha);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();

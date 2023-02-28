@@ -19,49 +19,44 @@ public class CadastroCidadeService {
     private EstadoRepository estadoRepository;
 
     public List<Cidade> listar() {
-        return cidadeRepository.listar();
+        return cidadeRepository.findAll();
     }
 
     public Cidade buscar(Long cidadeId) {
-        Cidade cidadeBusca = cidadeRepository.buscar(cidadeId);
-        if (cidadeBusca == null) {
-            throw new EntidadeNaoEncontradaException("Cidade não encontrada");
-        }
-        return cidadeRepository.buscar(cidadeId);
+        cidadeRepository.findById(cidadeId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                    String.format("Não existe um cadastro de cidade com código %d", cidadeId)));
+
+        return cidadeRepository.findById(cidadeId).get();
     }
 
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
-        Estado estado = estadoRepository.buscar(estadoId);
+        Estado estado = estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de estado com código %d", estadoId)));
 
-        if (estado == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de estado com código %d", estadoId));
-        }
         cidade.setEstado(estado);
-        return cidadeRepository.salvar(cidade);
+        return cidadeRepository.save(cidade);
     }
 
     public Cidade atualizar(Long cidadeId, Cidade cidade) throws SQLIntegrityConstraintViolationException {
-        Cidade cidadeAtual = cidadeRepository.buscar(cidadeId);
-        Estado estadoAtual = estadoRepository.buscar(cidade.getEstado().getId());
+        Cidade cidadeAtual = cidadeRepository.findById(cidadeId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe um cadastro de cidade com código %d", cidadeId)));
 
-        if (cidadeAtual == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cidade com código %d", cidadeId));
-        }
-        if (estadoAtual == null) {
-            throw new SQLIntegrityConstraintViolationException();
-        }
+        Estado estadoAtual = estadoRepository.findById(cidade.getEstado().getId())
+                .orElseThrow(() -> new SQLIntegrityConstraintViolationException());
+
         cidadeAtual.setNome(cidade.getNome());
         cidadeAtual.setEstado(estadoAtual);
-        cidadeRepository.salvar(cidadeAtual);
+        cidadeRepository.save(cidadeAtual);
         return cidadeAtual;
     }
 
     public void excluir(Long cidadeId) {
         try {
-            cidadeRepository.remover(cidadeId);
+            cidadeRepository.deleteById(cidadeId);
         }catch (Exception e) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de cidade com código %d", cidadeId));
