@@ -1,12 +1,14 @@
 package com.algaworks.algafoodapi.domain.model;
 
+import com.algaworks.algafoodapi.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class Cozinha {
 
     //@JsonRootName("gastronomia") // altera o nome do objeto no json, mas não no banco de dados.
+    @NotNull(groups = Groups.CozinhaId.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,7 @@ public class Cozinha {
 
     //@JsonIgnore // não mostra a propriedade no json.
     //@JsonProperty("titulo") // altera o nome da propriedade no json, mas não no banco de dados.
+    @NotBlank
     @Column(nullable = false)
     private String nome;
 
