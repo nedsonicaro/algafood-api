@@ -9,11 +9,15 @@ import com.algaworks.algafoodapi.domain.exception.EntidadeNaoEncontradaException
 import com.algaworks.algafoodapi.domain.exception.NegocioException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +33,8 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+    @Autowired
+    private MessageSource messageSource;
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -74,11 +80,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
         BindingResult bindingResult = ex.getBindingResult();
 
-        List <Problema.Field> problemFields = bindingResult.getFieldErrors().stream()
-                .map(fieldError -> Problema.Field.builder()
-                        .nome(fieldError.getField())
-                        .userMessage(fieldError.getDefaultMessage())
-                        .build())
+        List <Problema.Object> problemObjects = bindingResult.getAllErrors().stream()
+                .map(objectError ->  {
+                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+                    String name = objectError.getObjectName();
+
+                    if (objectError instanceof FieldError) {
+                        name = ((FieldError)objectError).getField();
+                    }
+
+                    return Problema.Object.builder()
+                            .nome(name)
+                            .userMessage(message)
+                            .build();
+
+                })
                 .collect(Collectors.toList());
 
         ProblemType problemType = ProblemType.DADOS_INVALIDOS;
@@ -86,7 +103,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         Problema problem = createProblemBuilder(status, problemType, detail)
                 .userMessage(detail)
-                .fields(problemFields)
+                .objects(problemObjects)
                 .build();
 
         return handleExceptionInternal(ex, problem, headers, status, request);
