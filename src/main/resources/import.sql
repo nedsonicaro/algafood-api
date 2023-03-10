@@ -28,6 +28,8 @@
 
 insert into cozinha (id, nome) values (1, 'Tailandesa');
 insert into cozinha (id, nome) values (2, 'Indiana');
+insert into cozinha (id, nome) values (3, 'Chinesa');
+insert into cozinha (id, nome) values (4, 'Japonesa');
 
 insert into estados (id, nome) values (1, 'Minas Gerais');
 insert into estados(id, nome) values (2, 'São Paulo');
