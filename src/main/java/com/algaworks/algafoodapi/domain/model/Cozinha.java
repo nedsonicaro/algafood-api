@@ -18,7 +18,7 @@ import java.util.List;
 public class Cozinha {
 
     //@JsonRootName("gastronomia") // altera o nome do objeto no json, mas não no banco de dados.
-    @NotNull(groups = Groups.CozinhaId.class)
+    //@NotNull(groups = Groups.CozinhaId.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Cozinha {
     @Column(nullable = false)
     private String nome;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurantes = new ArrayList<>();
 
