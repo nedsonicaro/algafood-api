@@ -1,13 +1,12 @@
-package com.algaworks.algafoodapi.api.controller.model.input;
+package com.algaworks.algafoodapi.api.DTO.input;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
-public class CozinhaIdInput {
+public class EstadoIdInput {
     @NotNull
     private Long id;
 }

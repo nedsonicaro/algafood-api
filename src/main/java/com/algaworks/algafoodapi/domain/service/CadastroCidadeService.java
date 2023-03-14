@@ -40,13 +40,12 @@ public class CadastroCidadeService {
     public void excluir(Long cidadeId) {
         try {
             cidadeRepository.deleteById(cidadeId);
-
-        } catch (EmptyResultDataAccessException e) {
-            throw new CidadeNaoEncontradaException(cidadeId);
-
-        } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(
-                    String.format(MSG_CIDADE_EM_USO, cidadeId));
+            cidadeRepository.flush();
+            } catch (DataIntegrityViolationException e) {
+                throw new EntidadeEmUsoException(
+                        String.format(MSG_CIDADE_EM_USO, cidadeId));
+            } catch (EmptyResultDataAccessException e) {
+                throw new CidadeNaoEncontradaException(cidadeId);
         }
     }
 

@@ -34,13 +34,13 @@ public class Restaurante {
 
     //@NotNull Não pode ser nulo
     //@NotEmpty Não pode ser vazio
-    @NotBlank
+//    @NotBlank
     @Column(nullable = false)
     private String nome;
 
     //@DecimalMin("0")
-    @PositiveOrZero
-    @NotNull
+//    @PositiveOrZero
+//    @NotNull
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 

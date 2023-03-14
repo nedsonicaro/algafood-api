@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 public class Estado {
 
     @Id
-    @NotNull(groups = Groups.EstadoId.class)
+//    @NotNull(groups = Groups.EstadoId.class)
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotBlank
+//    @NotBlank
     @Column(nullable = false)
     private String nome;
 }

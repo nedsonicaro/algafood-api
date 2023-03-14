@@ -23,12 +23,12 @@ public class Cidade {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    //@NotBlank
     @Column(nullable = false)
     private String nome;
 
-    @Valid
-    @NotNull
+//    @Valid
+//    @NotNull
     @ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
     @ManyToOne
     @JoinColumn(name = "estado_id")

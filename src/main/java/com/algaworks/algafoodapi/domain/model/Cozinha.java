@@ -27,7 +27,7 @@ public class Cozinha {
 
     //@JsonIgnore // não mostra a propriedade no json.
     //@JsonProperty("titulo") // altera o nome da propriedade no json, mas não no banco de dados.
-    @NotBlank
+    //@NotBlank
     @Column(nullable = false)
     private String nome;
 

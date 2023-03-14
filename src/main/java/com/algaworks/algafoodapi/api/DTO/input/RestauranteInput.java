@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.controller.model.input;
+package com.algaworks.algafoodapi.api.DTO.input;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +18,5 @@ public class RestauranteInput {
     private BigDecimal taxaFrete;
     @Valid
     @NotNull
-    private CozinhaIdInput cozinha;
+    private CozinhaInput cozinha;
 }
