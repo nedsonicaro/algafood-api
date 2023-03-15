@@ -3,20 +3,11 @@ package com.algaworks.algafoodapi.domain.service;
 import com.algaworks.algafoodapi.domain.exception.*;
 import com.algaworks.algafoodapi.domain.model.Cozinha;
 import com.algaworks.algafoodapi.domain.model.Restaurante;
-import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CadastroRestauranteService {
@@ -45,6 +36,18 @@ public class CadastroRestauranteService {
         } catch (EmptyResultDataAccessException e) {
             throw new RestauranteNaoEncontradoException(restauranteId);
         }
+    }
+    @Transactional
+    public void ativar (Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+//        restauranteAtual.setAtivo(true);
+        restauranteAtual.ativar();
+    }
+    @Transactional
+    public void inativar(Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+//        restauranteAtual.setAtivo(false);
+        restauranteAtual.inativar();
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {
