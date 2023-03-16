@@ -3,6 +3,7 @@ import com.algaworks.algafoodapi.api.assembler.RestauranteDtoAssembler;
 import com.algaworks.algafoodapi.api.assembler.RestauranteInputDisassembler;
 import com.algaworks.algafoodapi.api.DTO.RestauranteDTO;
 import com.algaworks.algafoodapi.api.DTO.input.RestauranteInput;
+import com.algaworks.algafoodapi.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exception.NegocioException;
 import com.algaworks.algafoodapi.domain.model.Restaurante;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurante")
+@RequestMapping("/restaurantes")
 public class RestauranteController {
 
     @Autowired
@@ -43,7 +44,7 @@ public class RestauranteController {
         try {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
             return restauranteDtoAssembler.toDTO(cadastroRestaurante.salvar(restaurante));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -58,7 +59,7 @@ public class RestauranteController {
 
             restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
             return restauranteDtoAssembler.toDTO(cadastroRestaurante.salvar(restauranteAtual));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }

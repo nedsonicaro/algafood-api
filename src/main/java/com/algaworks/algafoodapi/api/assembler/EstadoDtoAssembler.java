@@ -14,7 +14,7 @@ public class EstadoDtoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public EstadoDTO toDTO(Object estado) {
+    public EstadoDTO toDTO(Estado estado) {
         return modelMapper.map(estado, EstadoDTO.class);
     }
     public List<EstadoDTO> toCollectionDTO(List<Estado> estados) {

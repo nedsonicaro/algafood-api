@@ -3,7 +3,6 @@ package com.algaworks.algafoodapi.domain.service;
 import com.algaworks.algafoodapi.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafoodapi.domain.exception.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.model.FormaPagamento;
-import com.algaworks.algafoodapi.domain.model.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,8 +17,6 @@ public class CadastroFormaPagamentoService {
 
     @Autowired
     private FormaPagamentoRepository formaPagamentoRepository;
-    @Autowired
-    private CadastroRestauranteService cadastroRestaurante;
 
     @Transactional
     public FormaPagamento salvar(FormaPagamento formaPagamento) {
