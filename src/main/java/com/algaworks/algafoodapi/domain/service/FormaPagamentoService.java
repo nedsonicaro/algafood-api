@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CadastroFormaPagamentoService {
+public class FormaPagamentoService {
     private static final String MSG_FORMA_PAGAMENTO_EM_USO
             = "Forma de pagamento de código %d não pode ser removida, pois está em uso";
 

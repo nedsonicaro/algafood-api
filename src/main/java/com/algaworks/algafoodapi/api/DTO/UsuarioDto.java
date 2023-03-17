@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EstadoDTO {
+public class UsuarioDto {
     private Long id;
     private String nome;
+    private String email;
 }

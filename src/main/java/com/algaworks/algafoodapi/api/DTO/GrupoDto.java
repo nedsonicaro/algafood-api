@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GrupoDTO {
+public class GrupoDto {
     private Long id;
     private String nome;
 }

@@ -1,34 +1,35 @@
 package com.algaworks.algafoodapi.domain.service;
 
 import com.algaworks.algafoodapi.domain.exception.*;
-import com.algaworks.algafoodapi.domain.model.Cidade;
-import com.algaworks.algafoodapi.domain.model.Cozinha;
-import com.algaworks.algafoodapi.domain.model.FormaPagamento;
-import com.algaworks.algafoodapi.domain.model.Restaurante;
+import com.algaworks.algafoodapi.domain.model.*;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-public class CadastroRestauranteService {
+public class RestauranteService {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
     @Autowired
-    private CadastroCozinhaService cadastroCozinha;
+    private CozinhaService cozinhaService;
     @Autowired
-    private CadastroCidadeService cadastroCidade;
+    private CidadeService cidadeService;
     @Autowired
-    private CadastroFormaPagamentoService cadastroFormaPagamento;
+    private FormaPagamentoService formaPagamentoService;
+    @Autowired
+    private UsuarioService usuarioService;
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
         Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
-        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
-        Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
+        Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
+        Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
         restaurante.setCozinha(cozinha);
         restaurante.getEndereco().setCidade(cidade);
@@ -57,18 +58,51 @@ public class CadastroRestauranteService {
         restauranteAtual.inativar();
     }
     @Transactional
+    public void ativarLista(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::ativar);
+    }
+    @Transactional
+    public void inativarLista(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::inativar);
+    }
+
+    @Transactional
     public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
-        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
         restaurante.removerFormaPagamento(formaPagamento);
     }
     @Transactional
     public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
         Restaurante restaurante = buscarOuFalhar(restauranteId);
-        FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
 
         restaurante.adicionarFormaPagamento(formaPagamento);
+    }
+    @Transactional
+    public void abrir(Long restauranteId) {
+        Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+        restauranteAtual.abrir();
+    }
+    @Transactional
+    public void fechar(Long restauranteId) {
+        Restaurante restauranteAtual =  buscarOuFalhar(restauranteId);
+        restauranteAtual.fechar();
+    }
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
+
+        restaurante.adicionarResponsavel(usuario);
+    }
+    @Transactional
+    public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = usuarioService.buscarOuFalhar(usuarioId);
+
+        restaurante.removerResponsavel(usuario);
     }
 
     public Restaurante buscarOuFalhar(Long restauranteId) {

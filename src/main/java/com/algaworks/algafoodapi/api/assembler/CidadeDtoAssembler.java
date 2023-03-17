@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.api.assembler;
 
-import com.algaworks.algafoodapi.api.DTO.CidadeDTO;
+import com.algaworks.algafoodapi.api.DTO.CidadeDto;
 import com.algaworks.algafoodapi.domain.model.Cidade;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ public class CidadeDtoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CidadeDTO toDTO(Cidade cidade) {
-        return modelMapper.map(cidade, CidadeDTO.class);
+    public CidadeDto toDTO(Cidade cidade) {
+        return modelMapper.map(cidade, CidadeDto.class);
     }
 
-    public List<CidadeDTO> toCollectionDTO(List<Cidade> cidades) {
+    public List<CidadeDto> toCollectionDTO(List<Cidade> cidades) {
         return cidades.stream().map(cidade -> toDTO(cidade)).collect(Collectors.toList());
     }
 }

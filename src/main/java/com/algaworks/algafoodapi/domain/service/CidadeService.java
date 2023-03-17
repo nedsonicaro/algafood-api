@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class CadastroCidadeService {
+public class CidadeService {
     private static final String MSG_CIDADE_EM_USO
             = "Cidade de código %d não pode ser removida, pois está em uso";
 
@@ -20,7 +20,7 @@ public class CadastroCidadeService {
     private CidadeRepository cidadeRepository;
 
     @Autowired
-    private CadastroEstadoService cadastroEstado;
+    private EstadoService cadastroEstado;
 
     @Transactional
     public Cidade salvar(Cidade cidade) {
